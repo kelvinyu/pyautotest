@@ -1,0 +1,3 @@
+testid,submodule,parameter,member1,member2,timeout,host_command
+TEST_ID_1,SUBMODULE_1,MyStruct,123,456,10,readtest --rw=read --size=1G --runtime=10 --filename=/dev/nvme0n1
+TEST_ID_2,SUBMODULE_2,MyStruct,789,101112,15,writetest --rw=write --size=1G --runtime=10 --filename=/dev/nvme0n1

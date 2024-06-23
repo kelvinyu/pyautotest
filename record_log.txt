@@ -1,0 +1,26 @@
+import time
+
+def record_execution_time(func):
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        execution_time = end_time - start_time
+        result['execution_time'] = execution_time
+        return result
+    return wrapper
+
+# 示例测试函数
+@record_execution_time
+def run_test_case(test):
+    # 模拟测试逻辑，这里假设测试成功
+    success = True
+    # 这里可以执行具体的测试操作，例如调用设备、读取数据等
+    # 假设 test 是测试用例的一个字典
+    test_result = {'testid': test['testid'], 'success': success}
+    return test_result
+
+# 调用示例
+test = {'testid': 'TEST_ID_1'}
+result = run_test_case(test)
+print(f"Test {test['testid']} executed in {result['execution_time']} seconds. Result: {'Pass' if result['success'] else 'Fail'}")

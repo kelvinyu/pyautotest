@@ -1,0 +1,14 @@
+{
+    "memory_type": "pcie_bar",
+    "pci_device": "0000:01:00.0",
+    "bar_size": 65536,
+    "base_memory_address": 536870912,
+    "sq_address": 536875008,
+    "cq_address": 536879104,
+    "host_tool_path": "/usr/local/bin/fio",
+    "csv_paths": [
+        "config/tests1.csv",
+        "config/tests2.csv",
+        "config/tests3.csv"
+    ]
+}

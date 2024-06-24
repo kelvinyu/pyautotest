@@ -1,4 +1,7 @@
 import csv
+import struct
+
+HEADER_MAGIC = 0xDEADBEEF
 
 def parse_cores_data(cores_data_str):
     cores_data = {}
@@ -10,25 +13,32 @@ def parse_cores_data(cores_data_str):
             cores_data[int(core_id)] = data
     return cores_data
 
-def read_csv(file_path):
+def process_test_data(testid, cores_data):
+    packed_data = []
+    packed_data.append(HEADER_MAGIC)
+    packed_data.append(testid)
+    for core, data in cores_data.items():
+        packed_data.append(core)
+        for datum in data:
+            packed_data.append(datum)
+    return packed_data
+
+def send_to_memory(data):
+    # Example function - replace with your actual memory write function
+    # Assuming data is a list of 32-bit integers
+    for value in data:
+        print(f"Writing 32-bit int to memory: {value}")
+        # Write 'value' to memory or device here
+
+def read_csv_and_send(file_path):
     with open(file_path, 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            testname = row['testname']
-            testid = row['testid']
+            testid = int(row['testid'])
             cores_data_str = row['cores_data'].strip('"')
             cores_data = parse_cores_data(cores_data_str)
-            host_command = row['host_command'].strip('"')
-            host_scripts = row['host_scripts'].strip('"')
-            process_test_data(testname, testid, cores_data, host_command, host_scripts)
-
-def process_test_data(testname, testid, cores_data, host_command, host_scripts):
-    # Implement the logic to process test data for each core, host command, and host scripts
-    print(f"Processing Test: {testname} (ID: {testid})")
-    for core, data in cores_data.items():
-        print(f"Core {core}: {data}")
-    print(f"Host Command: {host_command}")
-    print(f"Host Scripts: {host_scripts}")
+            packed_data = process_test_data(testid, cores_data)
+            send_to_memory(packed_data)
 
 # Example usage
-read_csv('test.csv')
+read_csv_and_send('test_data.csv')
